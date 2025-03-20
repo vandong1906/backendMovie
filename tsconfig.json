@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es2020", // Mục tiêu JavaScript phiên bản (có thể thay đổi, ví dụ: es5, es6, etc.)
+    "module": "commonjs", // Hỗ trợ module cho Node.js
+    "strict": true, // Bật chế độ strict type checking
+    "esModuleInterop": true, // Hỗ trợ import/export với CommonJS
+    "skipLibCheck": true, // Bỏ qua kiểm tra thư viện (tăng tốc biên dịch)
+    "forceConsistentCasingInFileNames": true, // Đảm bảo tính nhất quán trong tên file
+    "outDir": "./dist", // Thư mục output sau khi biên dịch
+    "rootDir": "./src" // Thư mục nguồn (nếu bạn tổ chức code trong folder `src`)
+  },
+  "include": ["src/**/*"], // Các file TypeScript cần biên dịch
+  "exclude": ["node_modules"] // Loại trừ thư mục không cần biên dịch
+}
