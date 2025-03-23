@@ -1,7 +1,6 @@
 // models/Theater.ts
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/db";
-import Show from "./Show";
 
 class Theater extends Model {
     public theater_id!: number;
@@ -31,8 +30,5 @@ Theater.init(
         timestamps: false,
     }
 );
-
-// Associations
-Theater.hasMany(Show, { foreignKey: "theater_id", as: "shows" });
 
 export default Theater;

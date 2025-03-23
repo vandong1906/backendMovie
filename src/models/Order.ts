@@ -1,8 +1,8 @@
 // models/Order.ts
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../config/db";
-import khachHang from "./KhachHang";
-import Ticket from "./Ticket";
+
+import Ticket from "./ticket";
 
 interface OrderAttributes {
     id: number;
@@ -31,11 +31,7 @@ Order.init(
             autoIncrement: true,
             primaryKey: true,
         },
-        khachHang_id: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-            references: { model: khachHang, key: "id" },
-        },
+        
         total_amount: {
             type: DataTypes.DECIMAL(10, 2),
             allowNull: false,
@@ -54,7 +50,7 @@ Order.init(
 );
 
 // Associations
-Order.belongsTo(khachHang, { foreignKey: "khachHang_id", as: "customer" });
+
 Order.hasMany(Ticket, { foreignKey: "order_id", as: "tickets" });
 
 export default Order;

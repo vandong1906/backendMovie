@@ -28,8 +28,6 @@ class TheaterService {
         await theater.save();
         return theater;
     }
-
-    // Delete theater
     async deleteTheater(theater_id: number) {
         const theater = await Theater.findByPk(theater_id);
         if (!theater) throw new Error("Theater not found");
