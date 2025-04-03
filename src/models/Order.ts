@@ -6,7 +6,7 @@ import Ticket from "./ticket";
 
 interface OrderAttributes {
     id: number;
-    khachHang_id?: number;
+   
     total_amount: number;
     status: "pending" | "paid" | "shipped" | "delivered" | "cancelled";
     createdAt?: Date;

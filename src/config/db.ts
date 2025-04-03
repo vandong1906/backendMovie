@@ -1,6 +1,6 @@
 import  dotenv from "dotenv";
 import {Sequelize} from "sequelize";
-dotenv.config({ path: './src/.env' });
+dotenv.config({ path: './.env' });
 const db = {
     host: process.env.DB_HOST || "localhost1",
     user: process.env.DB_USER || "root",

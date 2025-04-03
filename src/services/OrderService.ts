@@ -2,6 +2,7 @@
 import Order from "../models/Order";
 import Ticket from "../models/ticket";
 import Payment from "../models/payment";
+import Show from "../models/Show";
 import { Op } from "sequelize";
 
 class OrderService {
@@ -12,7 +13,7 @@ class OrderService {
 
         // Create the order
         const order = await Order.create({
-            khachHang_id,
+         
             total_amount,
             status: "pending",
         });
@@ -24,7 +25,7 @@ class OrderService {
                     show_id: ticket.show_id,
                     seat_number: ticket.seat_number,
                     price: ticket.price,
-                    order_id: order.id,
+                   
                 })
             )
         );
