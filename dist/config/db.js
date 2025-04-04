@@ -19,7 +19,7 @@ const sequelize = new sequelize_1.Sequelize(db.database, db.user, db.password, {
     port: 21954,
     dialectOptions: {
         ssl: {
-            ca: fs_1.default.readFileSync('./ca.pem'),
+            ca: fs_1.default.readFileSync('../ca.pem'),
             rejectUnauthorized: true,
         },
     },
