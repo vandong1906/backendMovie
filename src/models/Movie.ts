@@ -7,7 +7,8 @@ class Movie extends Model {
     public movie_id!: number;
     public movie_name!: string;
     public genre!: string;
-    public duration!: string; // Stored as a string (e.g., "2h 30m")
+    public duration!: string;
+    public images?: string;
 }
 
 Movie.init(
@@ -29,6 +30,11 @@ Movie.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
+        path: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+
     },
     {
         sequelize,

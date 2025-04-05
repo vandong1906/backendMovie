@@ -11,9 +11,7 @@ class TheaterService {
 
     // Get theater by ID
     async getTheaterById(theater_id: number) {
-        const theater = await Theater.findByPk(theater_id, {
-            include: [{ model: Show, as: "shows" }],
-        });
+        const theater = await Theater.findByPk(theater_id);
         if (!theater) throw new Error("Theater not found");
         return theater;
     }

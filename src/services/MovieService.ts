@@ -4,8 +4,8 @@ import Show from "../models/Show";
 
 class MovieService {
     // Create a new movie
-    async createMovie(movie_name: string, genre: string, duration: string) {
-        const movie = await Movie.create({ movie_name, genre, duration });
+    async createMovie(movie_name: string, genre: string, duration: string,path: string) {
+        const movie = await Movie.create({ movie_name, genre, duration,path });
         return movie;
     }
 

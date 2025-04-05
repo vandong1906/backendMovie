@@ -20,7 +20,7 @@ app.use(cors(
         credentials: true,
         preflightContinue: false,
     }));
-sequelize.sync({force:true});
+sequelize.sync();
 app.use("/api/admins", userRoutes);
 app.use("/api/movies", movieRoutes);
 app.use("/api/theaters", theaterRoutes);

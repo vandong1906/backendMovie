@@ -5,13 +5,22 @@ import MovieService from "../services/MovieService";
 class MovieController {
     async createMovie(req: Request, res: Response) {
         try {
-            const { movie_name, genre, duration } = req.body;
-            if (!movie_name || !genre || !duration) {
-                 res.status(400).json({ message: "Movie name, genre, and duration are required" });
+            if (req.file) {
+                const { path } = req.file;
+                console.log(req.body);
+                const { movie_name, genre, duration } = req.body;
+                if (!movie_name || !genre || !duration) {
+                     res.status(400).json({ message: "Movie name, genre, and duration are required" });
+                }
+    
+                const movie = await MovieService.createMovie(movie_name, genre, duration,path);
+             res.json(movie).status(201);
             }
-
-            const movie = await MovieService.createMovie(movie_name, genre, duration);
-             res.status(201).json(movie);
+            else {
+                res.status(400).json({ message: "No file uploaded" });
+            }
+          
+           
         } catch (error: any) {
              res.status(500).json({ message: error.message });
         }
@@ -21,7 +30,8 @@ class MovieController {
         try {
             const { id } = req.params;
             const movie = await MovieService.getMovieById(Number(id));
-             res.status(200).json(movie);
+   
+            res.status(200).json(movie);
         } catch (error: any) {
              res.status(500).json({ message: error.message });
         }
