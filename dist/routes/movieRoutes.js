@@ -6,8 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // routes/movieRoutes.ts
 const express_1 = require("express");
 const MovieController_1 = __importDefault(require("../controllers/MovieController"));
+const upload_1 = require("../utils/upload");
 const router = (0, express_1.Router)();
-router.post("/", MovieController_1.default.createMovie);
+router.post("/", upload_1.uploadConfigs.movie, MovieController_1.default.createMovie);
 router.get("/:id", MovieController_1.default.getMovie);
 router.put("/:id", MovieController_1.default.updateMovie);
 router.delete("/:id", MovieController_1.default.deleteMovie);

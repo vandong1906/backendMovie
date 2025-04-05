@@ -23,7 +23,7 @@ app.use((0, cors_1.default)({
     credentials: true,
     preflightContinue: false,
 }));
-db_1.default.sync({ force: true });
+db_1.default.sync();
 app.use("/api/admins", userRoutes_1.default);
 app.use("/api/movies", movieRoutes_1.default);
 app.use("/api/theaters", theaterRoutes_1.default);

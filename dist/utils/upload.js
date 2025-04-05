@@ -47,7 +47,6 @@ cloudinary.v2.config({
     api_key: process.env.API_CLOUDINARY_KEY,
     api_secret: process.env.API_CLOUDINARY_SECRET,
 });
-// Create multiple storage configurations for different folders
 const createStorage = (folderName) => {
     return new multer_storage_cloudinary_1.CloudinaryStorage({
         cloudinary: cloudinary.v2,
@@ -57,7 +56,6 @@ const createStorage = (folderName) => {
         },
     });
 };
-// Multiple upload configurations
 const uploadConfigs = {
     profile: (0, multer_1.default)({
         storage: createStorage("profile_pictures"),
@@ -71,10 +69,9 @@ const uploadConfigs = {
         storage: createStorage("uploads"),
         limits: { fileSize: 5 * 1024 * 1024 },
     }).single("image"),
-    product: (0, multer_1.default)({
-        storage: createStorage("products"),
+    movie: (0, multer_1.default)({
+        storage: createStorage("movie"),
         limits: { fileSize: 5 * 1024 * 1024 },
     }).single("image"),
 };
 exports.uploadConfigs = uploadConfigs;
-console.log("Multer middleware configured for multiple upload types with Cloudinary storage");

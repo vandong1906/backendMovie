@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // services/TheaterService.ts
 const Theater_1 = __importDefault(require("../models/Theater"));
-const Show_1 = __importDefault(require("../models/Show"));
 class TheaterService {
     // Create a new theater
     async createTheater(theater_name, location) {
@@ -14,9 +13,7 @@ class TheaterService {
     }
     // Get theater by ID
     async getTheaterById(theater_id) {
-        const theater = await Theater_1.default.findByPk(theater_id, {
-            include: [{ model: Show_1.default, as: "shows" }],
-        });
+        const theater = await Theater_1.default.findByPk(theater_id);
         if (!theater)
             throw new Error("Theater not found");
         return theater;

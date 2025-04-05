@@ -27,6 +27,10 @@ Movie.init({
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
     },
+    path: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: true,
+    },
 }, {
     sequelize: db_1.default,
     tableName: "movies",

@@ -8,8 +8,8 @@ const Movie_1 = __importDefault(require("../models/Movie"));
 const Show_1 = __importDefault(require("../models/Show"));
 class MovieService {
     // Create a new movie
-    async createMovie(movie_name, genre, duration) {
-        const movie = await Movie_1.default.create({ movie_name, genre, duration });
+    async createMovie(movie_name, genre, duration, path) {
+        const movie = await Movie_1.default.create({ movie_name, genre, duration, path });
         return movie;
     }
     // Get movie by ID
