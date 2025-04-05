@@ -12,7 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(cors(
     {
-        origin: ['http://localhost:3000', 'http://localhost:8080'],
+        origin: ['http://localhost:3000', 'http://localhost:8080', 'http://localhost:5500'],
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
         allowedHeaders: ['sessionId', 'Content-Type', 'Authorization'],
         exposedHeaders: ['sessionId'],
@@ -31,3 +31,5 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+
