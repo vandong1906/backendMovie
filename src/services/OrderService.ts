@@ -33,6 +33,16 @@ class OrderService {
         return { order, tickets };
     }
 
+    // Get all orders
+    async getAllOrders() {
+        const orders = await Order.findAll({
+            include: [
+                { model: Ticket, as: "tickets", include: [{ model: Show, as: "show" }] },
+                { model: Payment, as: "payments" }, // Sửa alias từ "payment" thành "payments"
+            ],
+        });
+        return orders;
+    }
     // Get order details by ID
     async getOrderById(orderId: number) {
         const order = await Order.findByPk(orderId, {

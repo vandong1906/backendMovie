@@ -15,6 +15,11 @@ class TheaterService {
         if (!theater) throw new Error("Theater not found");
         return theater;
     }
+    async getTheaterALl() {
+        const theater = await Theater.findAll();
+        if (!theater) throw new Error("Theater not found");
+        return theater;
+    }
 
     // Update theater
     async updateTheater(theater_id: number, theater_name?: string, location?: string) {

@@ -8,5 +8,5 @@ router.post("/", TheaterController.createTheater);
 router.get("/:id", TheaterController.getTheater);
 router.put("/:id", TheaterController.updateTheater);
 router.delete("/:id", TheaterController.deleteTheater);
-
+router.get("/", TheaterController.getAllTheater);
 export default router;

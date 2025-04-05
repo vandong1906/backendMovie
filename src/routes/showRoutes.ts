@@ -8,5 +8,5 @@ router.post("/", ShowController.createShow);
 router.get("/:id", ShowController.getShow);
 router.put("/:id", ShowController.updateShow);
 router.delete("/:id", ShowController.deleteShow);
-
+router.get("/", ShowController.getAllShows);
 export default router;

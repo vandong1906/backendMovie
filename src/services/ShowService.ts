@@ -16,6 +16,11 @@ class ShowService {
         const show = await Show.create({ show_time, movie_id, theater_id });
         return show;
     }
+    async getAllShows() {
+        const shows = await Show.findAll();
+        if (!shows) throw new Error("No shows found");
+        return shows;
+    }
 
     // Get show by ID
     async getShowById(show_id: number) {

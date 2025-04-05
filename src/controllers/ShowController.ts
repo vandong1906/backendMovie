@@ -16,7 +16,14 @@ class ShowController {
             res.status(500).json({ message: error.message });
         }
     }
-
+async getAllShows(req: Request, res: Response) {
+        try {
+            const shows = await ShowService.getAllShows();
+            res.status(200).json(shows);
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    }
     async getShow(req: Request, res: Response) {
         try {
             const { id } = req.params;
