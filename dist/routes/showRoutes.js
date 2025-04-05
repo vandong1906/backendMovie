@@ -11,4 +11,5 @@ router.post("/", ShowController_1.default.createShow);
 router.get("/:id", ShowController_1.default.getShow);
 router.put("/:id", ShowController_1.default.updateShow);
 router.delete("/:id", ShowController_1.default.deleteShow);
+router.get("/", ShowController_1.default.getAllShows);
 exports.default = router;

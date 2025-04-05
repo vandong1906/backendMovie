@@ -11,4 +11,5 @@ router.post("/", TheaterController_1.default.createTheater);
 router.get("/:id", TheaterController_1.default.getTheater);
 router.put("/:id", TheaterController_1.default.updateTheater);
 router.delete("/:id", TheaterController_1.default.deleteTheater);
+router.get("/", TheaterController_1.default.getAllTheater);
 exports.default = router;

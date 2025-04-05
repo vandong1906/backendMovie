@@ -11,6 +11,7 @@ const theaterRoutes_1 = __importDefault(require("./routes/theaterRoutes"));
 const showRoutes_1 = __importDefault(require("./routes/showRoutes"));
 const ticketRoutes_1 = __importDefault(require("./routes/ticketRoutes"));
 const orderRoutes_1 = __importDefault(require("./routes/orderRoutes"));
+const paymentRoutes_1 = __importDefault(require("./routes/paymentRoutes"));
 const db_1 = __importDefault(require("./config/db"));
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
@@ -24,6 +25,7 @@ app.use((0, cors_1.default)({
     preflightContinue: false,
 }));
 db_1.default.sync();
+app.use('/api/payments', paymentRoutes_1.default);
 app.use("/api/admins", userRoutes_1.default);
 app.use("/api/movies", movieRoutes_1.default);
 app.use("/api/theaters", theaterRoutes_1.default);

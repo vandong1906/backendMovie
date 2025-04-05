@@ -20,6 +20,12 @@ class ShowService {
         const show = await Show_1.default.create({ show_time, movie_id, theater_id });
         return show;
     }
+    async getAllShows() {
+        const shows = await Show_1.default.findAll();
+        if (!shows)
+            throw new Error("No shows found");
+        return shows;
+    }
     // Get show by ID
     async getShowById(show_id) {
         const show = await Show_1.default.findByPk(show_id, {

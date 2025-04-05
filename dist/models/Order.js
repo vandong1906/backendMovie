@@ -7,6 +7,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const db_1 = __importDefault(require("../config/db"));
 const ticket_1 = __importDefault(require("./ticket"));
+const user_1 = __importDefault(require("./user"));
 class Order extends sequelize_1.Model {
 }
 Order.init({
@@ -14,6 +15,10 @@ Order.init({
         type: sequelize_1.DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
+    },
+    orderInfo: {
+        type: sequelize_1.DataTypes.STRING(255),
+        allowNull: false,
     },
     total_amount: {
         type: sequelize_1.DataTypes.DECIMAL(10, 2),
@@ -30,5 +35,8 @@ Order.init({
     timestamps: true,
 });
 // Associations
-Order.hasMany(ticket_1.default, { foreignKey: "order_id", as: "tickets" });
+Order.hasMany(ticket_1.default, { foreignKey: "Order_id", as: "tickets" });
+ticket_1.default.belongsTo(Order, { foreignKey: "Order_id", as: "order" });
+user_1.default.hasMany(Order, { foreignKey: "User_id", as: "orders" });
+Order.belongsTo(user_1.default, { foreignKey: "User_id", as: "user" });
 exports.default = Order;

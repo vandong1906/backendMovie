@@ -10,4 +10,5 @@ const router = (0, express_1.Router)();
 router.post("/", OrderController_1.default.createOrder);
 router.get("/:id", OrderController_1.default.getOrder);
 router.put("/:id/status", OrderController_1.default.updateOrderStatus);
+router.get("/", OrderController_1.default.getAllOrders);
 exports.default = router;

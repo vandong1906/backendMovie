@@ -11,12 +11,12 @@ const db = {
 const sequelize = new Sequelize(db.database, db.user, db.password, {
     host: db.host,
     dialect: 'mysql',
-    // port:21954,
-    // dialectOptions: {
-    //     ssl: {
-    //       ca: fs.readFileSync('../ca.pem'),
-    //       rejectUnauthorized: true,
-    //     },
-    //   },
+    port:21954,
+    dialectOptions: {
+        ssl: {
+          ca: fs.readFileSync('../ca.pem'),
+          rejectUnauthorized: true,
+        },
+      },
 });
 export default sequelize;

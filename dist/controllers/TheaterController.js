@@ -18,6 +18,15 @@ class TheaterController {
             res.status(500).json({ message: error.message });
         }
     }
+    async getAllTheater(req, res) {
+        try {
+            const theaters = await TheaterService_1.default.getTheaterALl();
+            res.status(200).json(theaters);
+        }
+        catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
     async getTheater(req, res) {
         try {
             const { id } = req.params;
