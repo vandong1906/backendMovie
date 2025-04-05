@@ -32,4 +32,9 @@ Theater.init(
     }
 );
 
+
+Theater.hasMany(Show, { foreignKey: "theater_id", as: "shows" });
+Show.belongsTo(Theater, { foreignKey: "theater_id", as: "theater" });
+
+
 export default Theater;

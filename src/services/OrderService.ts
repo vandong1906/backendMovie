@@ -7,18 +7,18 @@ import { Op } from "sequelize";
 
 class OrderService {
     // Create a new order with tickets
-    async createOrder(khachHang_id: number | null, ticketData: { show_id: number; seat_number: string; price: number }[]) {
+    async createOrder(User_id: number | null, ticketData: { show_id: number; seat_number: string; price: number }[]) {
         // Calculate total amount from tickets
         const total_amount = ticketData.reduce((sum, ticket) => sum + ticket.price, 0);
 
         // Create the order
         const order = await Order.create({
-         
+         orderInfo: `Order for user ${User_id}`,
             total_amount,
             status: "pending",
         });
 
-        // Create tickets and associate them with the order
+       
         const tickets = await Promise.all(
             ticketData.map((ticket) =>
                 Ticket.create({
@@ -38,7 +38,7 @@ class OrderService {
         const order = await Order.findByPk(orderId, {
             include: [
                 { model: Ticket, as: "tickets", include: [{ model: Show, as: "show" }] },
-                { model: Payment, as: "payment" },
+                { model: Payment, as: "payments" }, // Sửa alias từ "payment" thành "payments"
             ],
         });
         if (!order) throw new Error("Order not found");

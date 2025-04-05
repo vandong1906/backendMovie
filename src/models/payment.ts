@@ -64,7 +64,7 @@ Payment.init(
     }
 );
 
-// Associations
+Order.hasMany(Payment, { foreignKey: "order_id", as: "payments" });
 Payment.belongsTo(Order, { foreignKey: "order_id", as: "order" });
 
 export default Payment;

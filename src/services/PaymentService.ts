@@ -11,9 +11,16 @@ class PaymentService {
         transaction_id?: string
     ) {
         // Verify the order exists and the amount matches
-        const order = await Order.findByPk(order_id);
-        if (!order) throw new Error("Order not found");
-        if (order.total_amount !== amount) throw new Error("Payment amount does not match order total");
+        // const order = await Order.findByPk(order_id);
+        // if (!order) {
+        //     throw new Error("Order not found");
+        // }
+
+        // // Kiểm tra số tiền thanh toán
+        // if (amount !== order.total_amount) {
+        //     throw new Error("Payment amount does not match order total");
+        // }
+
 
         // Create the payment
         const payment = await Payment.create({

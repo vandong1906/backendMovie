@@ -6,6 +6,7 @@ import theaterRoutes from "./routes/theaterRoutes";
 import showRoutes from "./routes/showRoutes";
 import ticketRoutes from "./routes/ticketRoutes";
 import orderRoutes from "./routes/orderRoutes";
+import payments from "./routes/paymentRoutes";
 import sequelize from "./config/db";
 import cors from 'cors';
 const app = express();
@@ -21,6 +22,7 @@ app.use(cors(
         preflightContinue: false,
     }));
 sequelize.sync();
+app.use('/api/payments', payments)
 app.use("/api/admins", userRoutes);
 app.use("/api/movies", movieRoutes);
 app.use("/api/theaters", theaterRoutes);
