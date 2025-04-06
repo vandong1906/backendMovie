@@ -12,4 +12,5 @@ router.post("/", upload_1.uploadConfigs.movie, MovieController_1.default.createM
 router.get("/:id", MovieController_1.default.getMovie);
 router.put("/:id", MovieController_1.default.updateMovie);
 router.delete("/:id", MovieController_1.default.deleteMovie);
+router.get("/", MovieController_1.default.getAllMovies);
 exports.default = router;

@@ -56,5 +56,14 @@ class MovieController {
             res.status(500).json({ message: error.message });
         }
     }
+    async getAllMovies(req, res) {
+        try {
+            const movies = await MovieService_1.default.getAllMovies();
+            res.status(200).json(movies);
+        }
+        catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
 }
 exports.default = new MovieController();

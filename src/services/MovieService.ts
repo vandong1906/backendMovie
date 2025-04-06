@@ -38,6 +38,12 @@ class MovieService {
         await movie.destroy();
         return { message: "Movie deleted successfully" };
     }
+    async getAllMovies() {
+        const movies = await Movie.findAll({
+            include: [{ model: Show, as: "shows" }],
+        });
+        return movies;
+    }
 }
 
 export default new MovieService();
