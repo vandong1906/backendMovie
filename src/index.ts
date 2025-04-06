@@ -21,7 +21,7 @@ app.use(cors(
         credentials: true,
         preflightContinue: false,
     }));
-sequelize.sync({force:true});
+sequelize.sync();
 app.use('/api/payments', payments)
 app.use("/api/admins", userRoutes);
 app.use("/api/movies", movieRoutes);
