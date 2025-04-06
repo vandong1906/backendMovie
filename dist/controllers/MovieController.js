@@ -39,8 +39,17 @@ class MovieController {
         try {
             const { id } = req.params;
             const { movie_name, genre, duration } = req.body;
-            const movie = await MovieService_1.default.updateMovie(Number(id), movie_name, genre, duration);
-            res.status(200).json(movie);
+            if (req.file) {
+                const path = req.file.path;
+                if (!id) {
+                    res.status(400).json({ message: "Movie ID is required" });
+                }
+                if (!movie_name && !genre && !duration && !path) {
+                    res.status(400).json({ message: "No fields to update" });
+                }
+                const movie = await MovieService_1.default.updateMovie(Number(id), movie_name, genre, duration, path);
+                res.status(200).json(movie);
+            }
         }
         catch (error) {
             res.status(500).json({ message: error.message });

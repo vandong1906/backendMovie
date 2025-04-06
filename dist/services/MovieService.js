@@ -22,17 +22,10 @@ class MovieService {
         return movie;
     }
     // Update movie
-    async updateMovie(movie_id, movie_name, genre, duration) {
-        const movie = await Movie_1.default.findByPk(movie_id);
-        if (!movie)
-            throw new Error("Movie not found");
-        if (movie_name)
-            movie.movie_name = movie_name;
-        if (genre)
-            movie.genre = genre;
-        if (duration)
-            movie.duration = duration;
-        await movie.save();
+    async updateMovie(movie_id, movie_name, genre, duration, path) {
+        console.log(movie_id, movie_name, genre, duration, path);
+        const movie = await Movie_1.default.update({ movie_name, genre, duration, path }, { where: { movie_id } });
+        console.log(movie);
         return movie;
     }
     // Delete movie

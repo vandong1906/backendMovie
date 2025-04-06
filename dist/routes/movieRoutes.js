@@ -10,7 +10,7 @@ const upload_1 = require("../utils/upload");
 const router = (0, express_1.Router)();
 router.post("/", upload_1.uploadConfigs.movie, MovieController_1.default.createMovie);
 router.get("/:id", MovieController_1.default.getMovie);
-router.put("/:id", MovieController_1.default.updateMovie);
+router.put("/:id", upload_1.uploadConfigs.movie, MovieController_1.default.updateMovie);
 router.delete("/:id", MovieController_1.default.deleteMovie);
 router.get("/", MovieController_1.default.getAllMovies);
 exports.default = router;
