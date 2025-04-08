@@ -49,5 +49,17 @@ class UserController {
             res.status(500).json({ message: error.message });
         }
     }
+    async login(req, res) {
+        try {
+            const { User_name, password } = req.body;
+            if (!User_name || !password) {
+                res.status(400).json({ message: "User name and password are required" });
+            }
+            const User = await UserService_1.default.login(User_name, password);
+            res.status(201).json(User);
+        }
+        catch (error) {
+        }
+    }
 }
 exports.default = new UserController();

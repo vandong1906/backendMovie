@@ -34,6 +34,13 @@ class UserService {
         await user.destroy();
         return { message: "User deleted successfully" };
     }
+    async login(User_name:string,password:string){
+        const user = await User.findOne({where:{
+            User_name:User_name,
+            password:password
+        }})
+        return user;
+    }
 }
 
 export default new UserService();
