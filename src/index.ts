@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(
     {
-        origin: ['http://localhost:3000', 'http://localhost:5173','http://localhost:5500','https://movie-murex-nine.vercel.app'],
+        origin: ['http://localhost:3000','http://localhost:3001', 'http://localhost:5173','http://localhost:5500','https://movie-vandjngs-projects.vercel.app'],
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
         allowedHeaders: ['sessionId', 'Content-Type', 'Authorization'],
         exposedHeaders: ['sessionId'],
@@ -23,6 +23,7 @@ app.use(cors(
         preflightContinue: false,
     }));
 sequelize.sync();
+console.log(new Date())
 app.use('/api/payments', payments)
 app.use("/api/admins", userRoutes);
 app.use("/api/movies", movieRoutes);

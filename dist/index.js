@@ -18,7 +18,7 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cors_1.default)({
-    origin: ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:5500', 'https://movie-murex-nine.vercel.app'],
+    origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:5173', 'http://localhost:5500', 'https://movie-vandjngs-projects.vercel.app'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['sessionId', 'Content-Type', 'Authorization'],
     exposedHeaders: ['sessionId'],
@@ -26,6 +26,7 @@ app.use((0, cors_1.default)({
     preflightContinue: false,
 }));
 db_1.default.sync();
+console.log(new Date());
 app.use('/api/payments', paymentRoutes_1.default);
 app.use("/api/admins", userRoutes_1.default);
 app.use("/api/movies", movieRoutes_1.default);
