@@ -9,9 +9,11 @@ class ShowController {
             if (!show_time || !movie_id || !theater_id) {
                 res.status(400).json({ message: "Show time, movie ID, and theater ID are required" });
             }
+            else {
 
-            const show = await ShowService.createShow(new Date(show_time), movie_id, theater_id);
-            res.status(201).json(show);
+                const show = await ShowService.createShow(new Date(show_time), movie_id, theater_id);
+                res.status(201).json(show);
+            }
         } catch (error: any) {
             res.status(500).json({ message: error.message });
         }
