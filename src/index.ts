@@ -30,7 +30,7 @@ app.use(cors(
         credentials: true,
         preflightContinue: false,
     }));
-sequelize.sync({force:true});
+sequelize.sync();
 setupAssociations()
 app.use('/api/payments', payments)
 app.use("/api/admins", userRoutes);
