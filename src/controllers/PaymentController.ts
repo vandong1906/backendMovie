@@ -8,7 +8,8 @@ import {
   vnp_TmnCode,
   vnp_HashSecret,
 } from "../config/vnpay-config";
-import Order from "../models/Order";
+
+import Ticket from "../models/ticket";
 
 interface VnpParams {
   vnp_Version: string;
@@ -29,10 +30,10 @@ class PaymentController {
   // Create a payment for an order
   async createPayment(req: Request, res: Response) {
     try {
-      const { order_id, amount, payment_method, transaction_id } = req.body;
+      const { ticket_id, amount, payment_method, transaction_id } = req.body;
 
       // Kiểm tra các tham số bắt buộc
-      if (!order_id || !amount || !payment_method) {
+      if (!ticket_id || !amount || !payment_method) {
         res.status(400).json({
           message: "Order ID, amount, and payment method are required",
         });
@@ -49,7 +50,7 @@ class PaymentController {
 
       // Tạo thanh toán
       const payment = await PaymentService.createPayment(
-        order_id,
+        ticket_id,
         amount,
         payment_method,
         transaction_id
@@ -61,10 +62,10 @@ class PaymentController {
       }
 
       // Lấy thông tin đơn hàng
-      const order = await Order.findByPk(order_id);
-      if (order) {
-        if (order.orderInfo) {
-          const orderInfoFormatted = order.orderInfo.replace(/\s+/g, "+");
+      const ticket = await Ticket.findByPk(ticket_id);
+      if (ticket) {
+        if (ticket.orderInfo) {
+          const orderInfoFormatted = ticket.orderInfo.replace(/\s+/g, "+");
           const createDate = formatDate(new Date());
 
           const vnp_Params: VnpParams = {

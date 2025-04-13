@@ -5,10 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // services/PaymentService.ts
 const payment_1 = __importDefault(require("../models/payment"));
-const Order_1 = __importDefault(require("../models/Order"));
+const ticket_1 = __importDefault(require("../models/ticket"));
 class PaymentService {
     // Create a payment for an order
-    async createPayment(order_id, amount, payment_method, transaction_id) {
+    async createPayment(ticket_id, amount, payment_method, transaction_id) {
         // Verify the order exists and the amount matches
         // const order = await Order.findByPk(order_id);
         // if (!order) {
@@ -20,7 +20,7 @@ class PaymentService {
         // }
         // Create the payment
         const payment = await payment_1.default.create({
-            order_id,
+            ticket_id,
             amount,
             payment_method,
             payment_status: "pending",
@@ -37,19 +37,19 @@ class PaymentService {
         await payment.save();
         // If payment is completed, update the order status
         if (payment_status === "completed") {
-            const order = await Order_1.default.findByPk(payment.order_id);
-            if (order) {
-                order.status = "paid";
-                await order.save();
+            const ticket = await ticket_1.default.findByPk(payment.ticket_id);
+            if (ticket) {
+                ticket.status = "paid";
+                await ticket.save();
             }
         }
         return payment;
     }
     // Get payment details by order ID
-    async getPaymentByOrderId(orderId) {
+    async getPaymentByOrderId(ticket_id) {
         const payment = await payment_1.default.findOne({
-            where: { order_id: orderId },
-            include: [{ model: Order_1.default, as: "order" }],
+            where: { ticket_id: ticket_id },
+            include: [{ model: ticket_1.default, as: "ticket" }],
         });
         if (!payment)
             throw new Error("Payment not found");

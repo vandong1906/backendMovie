@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // models/Show.ts
 const sequelize_1 = require("sequelize");
 const db_1 = __importDefault(require("../config/db"));
+const ticket_1 = __importDefault(require("./ticket"));
 class Show extends sequelize_1.Model {
 }
 Show.init({
@@ -31,4 +32,6 @@ Show.init({
     tableName: "shows",
     timestamps: false,
 });
+Show.hasMany(ticket_1.default, { foreignKey: "Show_id", as: "Shows" });
+ticket_1.default.belongsTo(Show, { foreignKey: "Ticket_id", as: "Ticket" });
 exports.default = Show;

@@ -38,4 +38,5 @@ Movie.init({
 });
 // Associations
 Movie.hasMany(Show_1.default, { foreignKey: "movie_id", as: "shows" });
+Show_1.default.belongsTo(Movie, { foreignKey: "movie_id", as: "movies" });
 exports.default = Movie;

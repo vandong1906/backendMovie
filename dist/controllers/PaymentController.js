@@ -6,14 +6,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const PaymentService_1 = __importDefault(require("../services/PaymentService"));
 const helper_1 = require("../utils/helper");
 const vnpay_config_1 = require("../config/vnpay-config");
-const Order_1 = __importDefault(require("../models/Order"));
+const ticket_1 = __importDefault(require("../models/ticket"));
 class PaymentController {
     // Create a payment for an order
     async createPayment(req, res) {
         try {
-            const { order_id, amount, payment_method, transaction_id } = req.body;
+            const { ticket_id, amount, payment_method, transaction_id } = req.body;
             // Kiểm tra các tham số bắt buộc
-            if (!order_id || !amount || !payment_method) {
+            if (!ticket_id || !amount || !payment_method) {
                 res.status(400).json({
                     message: "Order ID, amount, and payment method are required",
                 });
@@ -23,16 +23,16 @@ class PaymentController {
                 res.status(400).json({ message: "Invalid payment method" });
             }
             // Tạo thanh toán
-            const payment = await PaymentService_1.default.createPayment(order_id, amount, payment_method, transaction_id);
+            const payment = await PaymentService_1.default.createPayment(ticket_id, amount, payment_method, transaction_id);
             // Kiểm tra cấu hình VNPay
             if (!vnpay_config_1.vnp_TmnCode || !vnpay_config_1.vnp_HashSecret) {
                 res.status(500).json({ error: "VNPay configuration is missing" });
             }
             // Lấy thông tin đơn hàng
-            const order = await Order_1.default.findByPk(order_id);
-            if (order) {
-                if (order.orderInfo) {
-                    const orderInfoFormatted = order.orderInfo.replace(/\s+/g, "+");
+            const ticket = await ticket_1.default.findByPk(ticket_id);
+            if (ticket) {
+                if (ticket.orderInfo) {
+                    const orderInfoFormatted = ticket.orderInfo.replace(/\s+/g, "+");
                     const createDate = (0, helper_1.formatDate)(new Date());
                     const vnp_Params = {
                         vnp_Version: "2.1.0",

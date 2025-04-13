@@ -11,7 +11,6 @@ const movieRoutes_1 = __importDefault(require("./routes/movieRoutes"));
 const theaterRoutes_1 = __importDefault(require("./routes/theaterRoutes"));
 const showRoutes_1 = __importDefault(require("./routes/showRoutes"));
 const ticketRoutes_1 = __importDefault(require("./routes/ticketRoutes"));
-const orderRoutes_1 = __importDefault(require("./routes/orderRoutes"));
 const paymentRoutes_1 = __importDefault(require("./routes/paymentRoutes"));
 const db_1 = __importDefault(require("./config/db"));
 const cors_1 = __importDefault(require("cors"));
@@ -22,6 +21,7 @@ app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)());
 const allowedOrigins = JSON.parse(process.env.API_ORIGINS || '[]');
+console.log(new Date());
 app.use((0, cors_1.default)({
     origin: allowedOrigins,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -37,7 +37,6 @@ app.use("/api/movies", movieRoutes_1.default);
 app.use("/api/theaters", theaterRoutes_1.default);
 app.use("/api/shows", showRoutes_1.default);
 app.use("/api/tickets", ticketRoutes_1.default);
-app.use("/api/orders", orderRoutes_1.default);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

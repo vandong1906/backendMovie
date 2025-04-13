@@ -3,10 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// models/Ticket.ts
+// models/ticket.ts
 const sequelize_1 = require("sequelize");
-const db_1 = __importDefault(require("../config/db"));
-const Show_1 = __importDefault(require("./Show"));
+const db_1 = __importDefault(require("../config/db")); // Adjust path to your Sequelize instance
+const Show_1 = __importDefault(require("./Show")); // Adjust path to your Show model
 class Ticket extends sequelize_1.Model {
 }
 Ticket.init({
@@ -14,6 +14,10 @@ Ticket.init({
         type: sequelize_1.DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
+    },
+    orderInfo: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
     },
     seat_number: {
         type: sequelize_1.DataTypes.STRING,
@@ -28,11 +32,16 @@ Ticket.init({
         allowNull: false,
         references: { model: Show_1.default, key: "show_id" },
     },
+    status: {
+        type: sequelize_1.DataTypes.ENUM("pending", "paid", "shipped", "delivered", "cancelled"),
+        allowNull: false,
+        defaultValue: "pending",
+    },
 }, {
     sequelize: db_1.default,
     tableName: "tickets",
     timestamps: true,
 });
-// Associations
-Ticket.belongsTo(Show_1.default, { foreignKey: "show_id", as: "show" });
+Ticket.belongsTo(Show_1.default, { foreignKey: "show_id", as: "ticket" });
+Show_1.default.hasMany(Ticket, { foreignKey: "show_id", as: "show" });
 exports.default = Ticket;

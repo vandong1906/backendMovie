@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // models/Payment.ts
 const sequelize_1 = require("sequelize");
 const db_1 = __importDefault(require("../config/db"));
-const Order_1 = __importDefault(require("./Order"));
+const ticket_1 = __importDefault(require("./ticket"));
 class Payment extends sequelize_1.Model {
 }
 Payment.init({
@@ -15,10 +15,10 @@ Payment.init({
         autoIncrement: true,
         primaryKey: true,
     },
-    order_id: {
+    ticket_id: {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
-        references: { model: Order_1.default, key: "id" },
+        references: { model: ticket_1.default, key: "ticket_id" },
     },
     amount: {
         type: sequelize_1.DataTypes.DECIMAL(10, 2),
@@ -42,6 +42,6 @@ Payment.init({
     tableName: "payments",
     timestamps: true,
 });
-Order_1.default.hasMany(Payment, { foreignKey: "order_id", as: "payments" });
-Payment.belongsTo(Order_1.default, { foreignKey: "order_id", as: "order" });
+ticket_1.default.hasMany(Payment, { foreignKey: "order_id", as: "payments" });
+Payment.belongsTo(ticket_1.default, { foreignKey: "order_id", as: "order" });
 exports.default = Payment;

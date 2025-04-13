@@ -1,57 +1,56 @@
-// models/Ticket.ts
-import { DataTypes, Model, Optional } from "sequelize";
-import sequelize from "../config/db";
-import Show from "./Show";
+// models/ticket.ts
+import { DataTypes, Model } from "sequelize";
+import sequelize from "../config/db"; // Adjust path to your Sequelize instance
+import Show from "./Show"; // Adjust path to your Show model
 
-interface TicketAttributes {
-    ticket_id: number;
-    seat_number: string;
-    price: number;
-    show_id: number;
-    createdAt?: Date;
-    updatedAt?: Date;
-}
-
-interface TicketCreationAttributes extends Optional<TicketAttributes, "ticket_id" | "createdAt" | "updatedAt"> {}
-
-class Ticket extends Model<TicketAttributes, TicketCreationAttributes> implements TicketAttributes {
-    public ticket_id!: number;
-    public seat_number!: string;
-    public price!: number;
-    public show_id!: number;
-    public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;
+class Ticket extends Model {
+  public ticket_id!: number;
+  public seat_number!: string;
+  public price!: number;
+  public show_id!: number;
+  public orderInfo!: string;
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+  public status!: "pending" | "paid" | "shipped" | "delivered" | "cancelled";
 }
 
 Ticket.init(
-    {
-        ticket_id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-        },
-        seat_number: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        price: {
-            type: DataTypes.DECIMAL(10, 2),
-            allowNull: false,
-        },
-        show_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: { model: Show, key: "show_id" },
-        },
+  {
+    ticket_id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
     },
-    {
-        sequelize,
-        tableName: "tickets",
-        timestamps: true,
-    }
+    orderInfo: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    seat_number: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    price: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false,
+    },
+    show_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: { model: Show, key: "show_id" },
+    },
+    status: {
+        type: DataTypes.ENUM("pending", "paid", "shipped", "delivered", "cancelled"),
+        allowNull: false,
+        defaultValue: "pending",
+    },
+  },
+  {
+    sequelize,
+    tableName: "tickets",
+    timestamps: true,
+  }
 );
 
-// Associations
-Ticket.belongsTo(Show, { foreignKey: "show_id", as: "show" });
-
+Ticket.belongsTo(Show, { foreignKey: "show_id", as: "ticket" });
+Show.hasMany(Ticket,{ foreignKey: "show_id", as: "show" })
 export default Ticket;

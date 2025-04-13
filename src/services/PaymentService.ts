@@ -1,11 +1,12 @@
 // services/PaymentService.ts
 import Payment from "../models/payment";
-import Order from "../models/Order";
+import Ticket from "../models/ticket";
+
 
 class PaymentService {
     // Create a payment for an order
     async createPayment(
-        order_id: number,
+        ticket_id: number,
         amount: number,
         payment_method: "credit_card" | "debit_card" | "paypal" | "cash",
         transaction_id?: string
@@ -24,7 +25,7 @@ class PaymentService {
 
         // Create the payment
         const payment = await Payment.create({
-            order_id,
+            ticket_id,
             amount,
             payment_method,
             payment_status: "pending",
@@ -44,10 +45,10 @@ class PaymentService {
 
         // If payment is completed, update the order status
         if (payment_status === "completed") {
-            const order = await Order.findByPk(payment.order_id);
-            if (order) {
-                order.status = "paid";
-                await order.save();
+            const ticket = await Ticket.findByPk(payment.ticket_id);
+            if (ticket) {
+                ticket.status = "paid";
+                await ticket.save();
             }
         }
 
@@ -55,10 +56,10 @@ class PaymentService {
     }
 
     // Get payment details by order ID
-    async getPaymentByOrderId(orderId: number) {
+    async getPaymentByOrderId(ticket_id: number) {
         const payment = await Payment.findOne({
-            where: { order_id: orderId },
-            include: [{ model: Order, as: "order" }],
+            where: { ticket_id: ticket_id },
+            include: [{ model: Ticket, as: "ticket" }],
         });
         if (!payment) throw new Error("Payment not found");
         return payment;

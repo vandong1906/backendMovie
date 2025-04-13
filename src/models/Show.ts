@@ -1,6 +1,7 @@
 // models/Show.ts
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/db";
+import Ticket from "./ticket";
 
 class Show extends Model {
     public show_id!: number;
@@ -30,6 +31,7 @@ Show.init(
             allowNull: false,
            
         },
+       
     },
     {
         sequelize,
@@ -37,5 +39,6 @@ Show.init(
         timestamps: false,
     }
 );
-
+Show.hasMany(Ticket, { foreignKey: "Show_id", as: "Shows" });
+Ticket.belongsTo(Show, { foreignKey: "Ticket_id", as: "Ticket" });
 export default Show;

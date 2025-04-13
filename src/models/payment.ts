@@ -1,11 +1,12 @@
 // models/Payment.ts
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../config/db";
-import Order from "./Order";
+import Ticket from "./ticket";
+
 
 interface PaymentAttributes {
     id: number;
-    order_id: number;
+    ticket_id: number;
     amount: number;
     payment_method: "credit_card" | "debit_card" | "paypal" | "cash";
     payment_status: "pending" | "completed" | "failed";
@@ -18,7 +19,7 @@ interface PaymentCreationAttributes extends Optional<PaymentAttributes, "id" | "
 
 class Payment extends Model<PaymentAttributes, PaymentCreationAttributes> implements PaymentAttributes {
     public id!: number;
-    public order_id!: number;
+    public ticket_id!: number;
     public amount!: number;
     public payment_method!: "credit_card" | "debit_card" | "paypal" | "cash";
     public payment_status!: "pending" | "completed" | "failed";
@@ -34,10 +35,10 @@ Payment.init(
             autoIncrement: true,
             primaryKey: true,
         },
-        order_id: {
+        ticket_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            references: { model: Order, key: "id" },
+            references: { model: Ticket, key: "ticket_id" },
         },
         amount: {
             type: DataTypes.DECIMAL(10, 2),
@@ -64,7 +65,7 @@ Payment.init(
     }
 );
 
-Order.hasMany(Payment, { foreignKey: "order_id", as: "payments" });
-Payment.belongsTo(Order, { foreignKey: "order_id", as: "order" });
+Ticket.hasMany(Payment, { foreignKey: "order_id", as: "payments" });
+Payment.belongsTo(Ticket, { foreignKey: "order_id", as: "order" });
 
 export default Payment;
