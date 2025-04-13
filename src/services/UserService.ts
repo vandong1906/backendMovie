@@ -2,6 +2,7 @@
 import User from "../models/user";
 import jwt from "jsonwebtoken"
 import bcrypt from 'bcrypt'
+import Ticket from "../models/ticket";
 class UserService {
     // Create a new User
     async createAdmin(email: string, password: string) {
@@ -31,9 +32,17 @@ class UserService {
         if (!user)  return null;
         return user;
     }
-    async getUserById(id:number) {
-        const user =User.findByPk(id);
-        if (!user)  return null;
+    async getUserById(id: number) {
+        const user = await User.findByPk(id, {
+            include: [
+                {
+                    model: Ticket,
+                    as: "tickets",
+                },
+            ],
+        });
+    
+        if (!user) return null;
         return user;
     }
     async updateUser(User_id: number, email?: string, password?: string) {
