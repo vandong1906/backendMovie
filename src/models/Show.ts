@@ -39,6 +39,5 @@ Show.init(
         timestamps: false,
     }
 );
-Show.hasMany(Ticket, { foreignKey: "show_id", as: "tickets" });
-Ticket.belongsTo(Show, { foreignKey: "show_id", as: "show" });
+
 export default Show;

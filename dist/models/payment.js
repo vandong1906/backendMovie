@@ -42,6 +42,4 @@ Payment.init({
     tableName: "payments",
     timestamps: true,
 });
-ticket_1.default.hasMany(Payment, { foreignKey: "order_id", as: "payments" });
-Payment.belongsTo(ticket_1.default, { foreignKey: "order_id", as: "order" });
 exports.default = Payment;

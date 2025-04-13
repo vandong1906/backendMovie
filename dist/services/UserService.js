@@ -7,6 +7,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = __importDefault(require("../models/user"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const ticket_1 = __importDefault(require("../models/ticket"));
+const payment_1 = __importDefault(require("../models/payment"));
 class UserService {
     // Create a new User
     async createAdmin(email, password) {
@@ -28,8 +29,8 @@ class UserService {
     async getUserByEmail(email) {
         const user = await user_1.default.findOne({
             where: {
-                email
-            }
+                email,
+            },
         });
         if (!user)
             return null;
@@ -41,6 +42,12 @@ class UserService {
                 {
                     model: ticket_1.default,
                     as: "tickets",
+                    include: [
+                        {
+                            model: payment_1.default,
+                            as: "payment", // phải trùng alias
+                        },
+                    ],
                 },
             ],
         });
@@ -67,13 +74,19 @@ class UserService {
         return { message: "User deleted successfully" };
     }
     async login(email, password) {
-        const user = await user_1.default.findOne({ where: {
+        const user = await user_1.default.findOne({
+            where: {
                 email: email,
-                password: password
-            } });
+                password: password,
+            },
+        });
         const accessToken = jsonwebtoken_1.default.sign({ id: user?.User_id, role: user?.role }, process.env.JWT_SECRET || "", { expiresIn: "5m" });
         const refreshToken = jsonwebtoken_1.default.sign({ id: user?.User_id, role: user?.role }, process.env.JWT_REFRESH_SECRET || "", { expiresIn: "7d" });
-        return { accessToken, refreshToken, user: { id: user?.User_id, email: user?.email, role: user?.role } };
+        return {
+            accessToken,
+            refreshToken,
+            user: { id: user?.User_id, email: user?.email, role: user?.role },
+        };
     }
 }
 exports.default = new UserService();

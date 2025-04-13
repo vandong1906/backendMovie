@@ -65,7 +65,5 @@ Payment.init(
     }
 );
 
-Ticket.hasMany(Payment, { foreignKey: "order_id", as: "payments" });
-Payment.belongsTo(Ticket, { foreignKey: "order_id", as: "order" });
 
 export default Payment;

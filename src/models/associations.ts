@@ -3,6 +3,7 @@ import Theater from './Theater';
 import Show from './Show';
 import Ticket from './ticket';
 import User from './user';
+import Payment from './payment';
 
 
 // Movie - Show
@@ -12,6 +13,9 @@ Show.belongsTo(Movie, { foreignKey: 'movie_id' });
 // Theater - Show
 Theater.hasMany(Show, { foreignKey: 'theater_id' });
 Show.belongsTo(Theater, { foreignKey: 'theater_id' });
+// Ticket 1 - 1 Payment
+Ticket.hasOne(Payment, { foreignKey: "ticket_id", as: "payment" });
+Payment.belongsTo(Ticket, { foreignKey: "ticket_id", as: "ticket" });
 
 // Show - Ticket
 Show.hasMany(Ticket, { foreignKey: 'show_id' });

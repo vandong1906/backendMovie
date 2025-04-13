@@ -9,12 +9,16 @@ const Theater_1 = __importDefault(require("./Theater"));
 const Show_1 = __importDefault(require("./Show"));
 const ticket_1 = __importDefault(require("./ticket"));
 const user_1 = __importDefault(require("./user"));
+const payment_1 = __importDefault(require("./payment"));
 // Movie - Show
 Movie_1.default.hasMany(Show_1.default, { foreignKey: 'movie_id' });
 Show_1.default.belongsTo(Movie_1.default, { foreignKey: 'movie_id' });
 // Theater - Show
 Theater_1.default.hasMany(Show_1.default, { foreignKey: 'theater_id' });
 Show_1.default.belongsTo(Theater_1.default, { foreignKey: 'theater_id' });
+// Ticket 1 - 1 Payment
+ticket_1.default.hasOne(payment_1.default, { foreignKey: "ticket_id", as: "payment" });
+payment_1.default.belongsTo(ticket_1.default, { foreignKey: "ticket_id", as: "ticket" });
 // Show - Ticket
 Show_1.default.hasMany(ticket_1.default, { foreignKey: 'show_id' });
 ticket_1.default.belongsTo(Show_1.default, { foreignKey: 'show_id' });
