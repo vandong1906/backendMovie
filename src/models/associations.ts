@@ -18,8 +18,12 @@ Ticket.hasOne(Payment, { foreignKey: "ticket_id", as: "payment" });
 Payment.belongsTo(Ticket, { foreignKey: "ticket_id", as: "ticket" });
 
 // Show - Ticket
-Show.hasMany(Ticket, { foreignKey: 'show_id' });
-Ticket.belongsTo(Show, { foreignKey: 'show_id' });
+// Một Show có nhiều Ticket
+Show.hasMany(Ticket, { foreignKey: "show_id", as: "tickets" });
+
+// Mỗi Ticket thuộc về một Show
+Ticket.belongsTo(Show, { foreignKey: "show_id", as: "show" });
+
 
 // (Tuỳ chọn) Admin - Movie, Theater
 // Admin.hasMany(Movie, { foreignKey: 'admin_id' });
