@@ -15,13 +15,13 @@ const paymentRoutes_1 = __importDefault(require("./routes/paymentRoutes"));
 const db_1 = __importDefault(require("./config/db"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const associations_1 = __importDefault(require("./models/associations"));
 dotenv_1.default.config({ path: './.env' });
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)());
 const allowedOrigins = JSON.parse(process.env.API_ORIGINS || '[]');
-console.log(new Date());
 app.use((0, cors_1.default)({
     origin: allowedOrigins,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -30,7 +30,8 @@ app.use((0, cors_1.default)({
     credentials: true,
     preflightContinue: false,
 }));
-db_1.default.sync();
+db_1.default.sync({ force: true });
+(0, associations_1.default)();
 app.use('/api/payments', paymentRoutes_1.default);
 app.use("/api/admins", userRoutes_1.default);
 app.use("/api/movies", movieRoutes_1.default);

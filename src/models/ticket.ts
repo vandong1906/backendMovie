@@ -51,6 +51,5 @@ Ticket.init(
   }
 );
 
-Ticket.belongsTo(Show, { foreignKey: "show_id", as: "ticket" });
-Show.hasMany(Ticket,{ foreignKey: "show_id", as: "show" })
+
 export default Ticket;

@@ -32,6 +32,6 @@ Show.init({
     tableName: "shows",
     timestamps: false,
 });
-Show.hasMany(ticket_1.default, { foreignKey: "Show_id", as: "Shows" });
-ticket_1.default.belongsTo(Show, { foreignKey: "Ticket_id", as: "Ticket" });
+Show.hasMany(ticket_1.default, { foreignKey: "show_id", as: "tickets" });
+ticket_1.default.belongsTo(Show, { foreignKey: "show_id", as: "show" });
 exports.default = Show;
