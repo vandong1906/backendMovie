@@ -7,12 +7,21 @@ const UserService_1 = __importDefault(require("../services/UserService"));
 class UserController {
     async createUser(req, res) {
         try {
-            const { User_name, password } = req.body;
-            if (!User_name || !password) {
-                res.status(400).json({ message: "User name and password are required" });
+            const { email, password } = req.body;
+            if (!email || !password) {
+                res.status(400).json({ message: "User name and password exits" });
             }
-            const User = await UserService_1.default.createUser(User_name, password);
-            res.status(201).json(User);
+            const checkUser = await UserService_1.default.getUserByEmail(email);
+            console.log(checkUser);
+            if (checkUser) {
+                res
+                    .status(400)
+                    .json({ message: "User name and password are required" });
+            }
+            else {
+                const User = await UserService_1.default.createUser(email, password);
+                res.status(201).json(User);
+            }
         }
         catch (error) {
             res.status(500).json({ message: error.message });
@@ -31,8 +40,8 @@ class UserController {
     async updateUser(req, res) {
         try {
             const { id } = req.params;
-            const { User_name, password } = req.body;
-            const User = await UserService_1.default.updateUser(Number(id), User_name, password);
+            const { email, password } = req.body;
+            const User = await UserService_1.default.updateUser(Number(id), email, password);
             res.status(200).json(User);
         }
         catch (error) {
@@ -51,14 +60,68 @@ class UserController {
     }
     async login(req, res) {
         try {
-            const { User_name, password } = req.body;
-            if (!User_name || !password) {
-                res.status(400).json({ message: "User name and password are required" });
+            const { email, password } = req.body;
+            if (!email || !password) {
+                res
+                    .status(400)
+                    .json({ message: "User name and password are required" });
             }
-            const User = await UserService_1.default.login(User_name, password);
-            res.status(201).json(User);
+            const { accessToken, refreshToken, user } = await UserService_1.default.login(email, password);
+            if (user.email != undefined) {
+                res.cookie("token", accessToken, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === "production",
+                    maxAge: 15 * 60 * 1000,
+                    sameSite: "strict",
+                });
+                res.cookie("refreshToken", refreshToken, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === "production",
+                    maxAge: 7 * 24 * 60 * 60 * 1000,
+                    sameSite: "strict",
+                });
+                res.status(201).json(user);
+            }
+            else {
+                res.status(401).json("password or email incorrect");
+            }
         }
         catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+    async logout(req, res) {
+        try {
+            res.clearCookie("token", {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "strict",
+            });
+            res.clearCookie("refreshToken", {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "strict",
+            });
+            res.status(200).json({ message: "Logged out successfully" });
+        }
+        catch (error) {
+            res.status(500).json({ error: "Logout failed" });
+        }
+    }
+    async createAdmin(req, res) {
+        try {
+            const { email, password } = req.body;
+            console.log(req.body);
+            if (!email || !password) {
+                res.status(400).json({ error: "Email and password are required" });
+            }
+            else {
+                const admin = await UserService_1.default.createAdmin(email, password);
+                res.status(201).json({ message: "Admin created successfully", admin });
+            }
+        }
+        catch (error) {
+            res.status(400).json({ error: error.message });
         }
     }
 }

@@ -5,32 +5,52 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // services/UserService.ts
 const user_1 = __importDefault(require("../models/user"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 class UserService {
     // Create a new User
-    async createUser(User_name, password) {
-        const user = await user_1.default.create({ User_name, password });
+    async createAdmin(email, password) {
+        const admin = await user_1.default.create({
+            email,
+            password: password,
+            role: "admin",
+        });
+        return {
+            User_id: admin.User_id,
+            email: admin.email,
+            role: admin.role,
+        };
+    }
+    async createUser(email, password) {
+        const user = await user_1.default.create({ email, password });
         return user;
     }
-    // Get User by ID
-    async getUserById(User_id) {
+    async getUserByEmail(email) {
+        const user = await user_1.default.findOne({
+            where: {
+                email
+            }
+        });
+        if (!user)
+            return null;
+        return user;
+    }
+    async getUserById(id) {
+        const user = user_1.default.findByPk(id);
+        if (!user)
+            return null;
+        return user;
+    }
+    async updateUser(User_id, email, password) {
         const user = await user_1.default.findByPk(User_id);
         if (!user)
             throw new Error("User not found");
-        return user;
-    }
-    // Update User
-    async updateUser(User_id, User_name, password) {
-        const user = await user_1.default.findByPk(User_id);
-        if (!user)
-            throw new Error("User not found");
-        if (User_name)
-            user.User_name = User_name;
+        if (email)
+            user.email = email;
         if (password)
             user.password = password;
         await user.save();
         return user;
     }
-    // Delete User
     async deleteUser(User_id) {
         const user = await user_1.default.findByPk(User_id);
         if (!user)
@@ -38,12 +58,14 @@ class UserService {
         await user.destroy();
         return { message: "User deleted successfully" };
     }
-    async login(User_name, password) {
+    async login(email, password) {
         const user = await user_1.default.findOne({ where: {
-                User_name: User_name,
+                email: email,
                 password: password
             } });
-        return user;
+        const accessToken = jsonwebtoken_1.default.sign({ id: user?.User_id, role: user?.role }, process.env.JWT_SECRET || "", { expiresIn: "5m" });
+        const refreshToken = jsonwebtoken_1.default.sign({ id: user?.User_id, role: user?.role }, process.env.JWT_REFRESH_SECRET || "", { expiresIn: "7d" });
+        return { accessToken, refreshToken, user: { id: user?.User_id, email: user?.email, role: user?.role } };
     }
 }
 exports.default = new UserService();

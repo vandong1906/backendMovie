@@ -1,7 +1,7 @@
 import {NextFunction, Request, Response} from "express";
 import jwt from "jsonwebtoken";
-
-
+import  dotenv from "dotenv";
+dotenv.config({ path: './.env' });
 interface UserRequest extends Request {
     cookies: { [key: string]: string | undefined };
     user?: UserPayload;
@@ -10,20 +10,27 @@ interface UserPayload {
     id: number;
     role: "admin" | "user";
 }
-// Main authentication middleware
+
 const authMiddleware = (req: UserRequest, res: Response, next: NextFunction) => {
+    
+    if( req.cookies.token){
         const token = req.cookies.token;
-
-    if (!token) {
-         res.status(401).json({ error: "No token provided" });
+        if (!token) {
+            res.status(401).json({ error: "No token provided" });
+       }
+       try {
+           req.user = jwt.verify(token as string, process.env.JWT_SECRET || "") as UserPayload;
+   
+           next();
+       } catch (error) {
+            res.status(401).json({ error: "Invalid token" }); // Return to stop execution
+       }
     }
-    try {
-        req.user = jwt.verify(token as string, process.env.JWT_SECRET || "") as UserPayload;
+     else {
+        res.status(401).json({ error: "Invalid token" }); 
+     }
 
-        next();
-    } catch (error) {
-         res.status(401).json({ error: "Invalid token" }); // Return to stop execution
-    }
+    
 };
 
 const refreshToken = async (req: Request, res: Response) => {
@@ -56,4 +63,15 @@ const refreshToken = async (req: Request, res: Response) => {
         res.status(401).json({ error: "Invalid refresh token" });
     }
 };
-export { authMiddleware, refreshToken};
+const isAdmin = (req: UserRequest, res: Response, next: NextFunction) => {
+    if (!req.user) {
+        return res.status(401).json({ error: "Unauthorized: No user found" });
+    }
+
+    if (req.user.role !== "admin") {
+        return res.status(403).json({ error: "Forbidden: Admin access required" });
+    }
+
+    next();
+};
+export { authMiddleware, refreshToken,isAdmin};

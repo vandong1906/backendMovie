@@ -1,12 +1,16 @@
 // routes/showRoutes.ts
 import { Router } from "express";
 import ShowController from "../controllers/ShowController";
-
+import {authMiddleware, isAdmin, refreshToken} from "../utils/authenciacne";
 const router = Router();
 
-router.post("/", ShowController.createShow);
-router.get("/:id", ShowController.getShow);
-router.put("/:id", ShowController.updateShow);
-router.delete("/:id", ShowController.deleteShow);
-router.get("/", ShowController.getAllShows);
+router.route('/shows/:id')
+    .put([authMiddleware, isAdmin], ShowController.updateShow)
+    .delete([authMiddleware, isAdmin], ShowController.deleteShow);
+router.route('/')
+  .post([authMiddleware, isAdmin] ,ShowController.createShow);
+
+// Các route GET không cần authentication
+router.get('/:id', ShowController.getShow);         
+router.get('/', ShowController.getAllShows);       
 export default router;

@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // app.ts
 const express_1 = __importDefault(require("express"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 const movieRoutes_1 = __importDefault(require("./routes/movieRoutes"));
 const theaterRoutes_1 = __importDefault(require("./routes/theaterRoutes"));
@@ -14,11 +15,14 @@ const orderRoutes_1 = __importDefault(require("./routes/orderRoutes"));
 const paymentRoutes_1 = __importDefault(require("./routes/paymentRoutes"));
 const db_1 = __importDefault(require("./config/db"));
 const cors_1 = __importDefault(require("cors"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config({ path: './.env' });
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
+app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({
-    origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:5173', 'http://localhost:5500', 'https://movie-vandjngs-projects.vercel.app'],
+    origin: process.env.API_ORIGINS,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['sessionId', 'Content-Type', 'Authorization'],
     exposedHeaders: ['sessionId'],
@@ -26,7 +30,6 @@ app.use((0, cors_1.default)({
     preflightContinue: false,
 }));
 db_1.default.sync();
-console.log(new Date());
 app.use('/api/payments', paymentRoutes_1.default);
 app.use("/api/admins", userRoutes_1.default);
 app.use("/api/movies", movieRoutes_1.default);

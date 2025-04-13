@@ -8,6 +8,7 @@ const db = {
     password: process.env.DB_PASSWORD || "",
     database: process.env.DB_NAME || "movie",
 };
+
 const sequelize = new Sequelize(db.database, db.user, db.password, {
     host: db.host,
     dialect: 'mysql',

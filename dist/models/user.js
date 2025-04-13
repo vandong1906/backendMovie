@@ -14,13 +14,18 @@ User.init({
         autoIncrement: true,
         primaryKey: true,
     },
-    User_name: {
+    email: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
     },
     password: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
+    },
+    role: {
+        type: sequelize_1.DataTypes.ENUM("admin", "user"),
+        allowNull: false,
+        defaultValue: "user",
     },
 }, {
     sequelize: db_1.default,

@@ -1,32 +1,50 @@
 // services/UserService.ts
 import User from "../models/user";
-
+import jwt from "jsonwebtoken"
+import bcrypt from 'bcrypt'
 class UserService {
     // Create a new User
-    async createUser(User_name: string, password: string) {
-        const user = await User.create({ User_name, password });
+    async createAdmin(email: string, password: string) {
+
+        const admin = await User.create({
+            email,
+            password: password,
+            role: "admin",
+        });
+
+        return {
+            User_id: admin.User_id,
+            email: admin.email,
+            role: admin.role,
+        };
+    }
+    async createUser(email: string, password: string) {
+        const user = await User.create({ email, password });
         return user;
     }
-
-    // Get User by ID
-    async getUserById(User_id: number) {
-        const user = await User.findByPk(User_id);
-        if (!user) throw new Error("User not found");
+    async getUserByEmail(email: string) {
+        const user = await User.findOne({
+            where:{
+                email
+            }
+        });
+        if (!user)  return null;
         return user;
     }
-
-    // Update User
-    async updateUser(User_id: number, User_name?: string, password?: string) {
+    async getUserById(id:number) {
+        const user =User.findByPk(id);
+        if (!user)  return null;
+        return user;
+    }
+    async updateUser(User_id: number, email?: string, password?: string) {
         const user = await User.findByPk(User_id);
         if (!user) throw new Error("User not found");
 
-        if (User_name) user.User_name = User_name;
+        if (email) user.email = email;
         if (password) user.password = password;
         await user.save();
         return user;
     }
-
-    // Delete User
     async deleteUser(User_id: number) {
         const user = await User.findByPk(User_id);
         if (!user) throw new Error("User not found");
@@ -34,13 +52,25 @@ class UserService {
         await user.destroy();
         return { message: "User deleted successfully" };
     }
-    async login(User_name:string,password:string){
+    async login(email:string,password:string){
         const user = await User.findOne({where:{
-            User_name:User_name,
+            email:email,
             password:password
         }})
-        return user;
+        const accessToken = jwt.sign(
+            { id: user?.User_id, role: user?.role },
+            process.env.JWT_SECRET || "",
+            { expiresIn: "5m" } 
+        );
+    
+        const refreshToken = jwt.sign(
+            { id: user?.User_id, role: user?.role },
+            process.env.JWT_REFRESH_SECRET || "",
+            { expiresIn: "7d" } 
+        );
+        return { accessToken,refreshToken, user: { id: user?.User_id, email: user?.email, role: user?.role} };
     }
+
 }
 
 export default new UserService();

@@ -100,7 +100,7 @@ class PaymentController {
         try {
             // Kiểm tra nếu không có query params
             if (!Object.keys(req.query).length) {
-                res.status(400).json({ error: 'Thiếu tham số thanh toán' });
+                res.status(400).json({ error: "Thiếu tham số thanh toán" });
             }
             // Chuyển query params thành object
             const vnp_Params = { ...req.query };
@@ -111,20 +111,22 @@ class PaymentController {
             const sortedParams = (0, helper_1.sortObject)(vnp_Params);
             const signData = new URLSearchParams(Object.entries(sortedParams).map(([key, value]) => [key, String(value)])).toString();
             // Tạo hash để kiểm tra
-            const checkHash = (0, helper_1.createHash)(signData, vnpay_config_1.vnp_HashSecret ?? '');
+            const checkHash = (0, helper_1.createHash)(signData, vnpay_config_1.vnp_HashSecret ?? "");
             if (secureHash !== checkHash) {
-                res.status(400).json({ error: 'Invalid signature' });
+                res.status(400).json({ error: "Invalid signature" });
             }
             const paymentId = parseInt(vnp_Params.vnp_TxnRef);
             const responseCode = vnp_Params.vnp_ResponseCode;
-            // Cập nhật trạng thái thanh toán trong DB
-            if (responseCode === '00') {
-                await PaymentService_1.default.updatePaymentStatus(paymentId, 'completed');
-                res.json({ message: 'Thanh toán thành công!' });
-            }
-            else {
-                await PaymentService_1.default.updatePaymentStatus(paymentId, 'failed');
-                res.json({ error: `Thanh toán thất bại! Mã lỗi: ${responseCode}` });
+            const a = process.env.SEVER_CALLBACK_URL;
+            if (a) {
+                if (responseCode === "00") {
+                    await PaymentService_1.default.updatePaymentStatus(paymentId, "completed");
+                    res.redirect(a);
+                }
+                else {
+                    await PaymentService_1.default.updatePaymentStatus(paymentId, "failed");
+                    res.json({ error: `Thanh toán thất bại! Mã lỗi: ${responseCode}` });
+                }
             }
         }
         catch (error) {

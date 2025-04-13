@@ -4,8 +4,9 @@ import sequelize from "../config/db";
 
 class User extends Model {
     public User_id!: number;
-    public User_name!: string;
+    public email!: string;
     public password!: string;
+    public role!:string;
 }
 
 User.init(
@@ -15,13 +16,18 @@ User.init(
             autoIncrement: true,
             primaryKey: true,
         },
-        User_name: {
+        email: {
             type: DataTypes.STRING,
             allowNull: false,
         },
         password: {
             type: DataTypes.STRING,
             allowNull: false,
+        },
+        role: {
+            type: DataTypes.ENUM("admin", "user"),
+            allowNull: false,
+            defaultValue: "user",
         },
     },
     {
