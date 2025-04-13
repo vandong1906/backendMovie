@@ -21,8 +21,9 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)());
+const allowedOrigins = JSON.parse(process.env.API_ORIGINS || '[]');
 app.use((0, cors_1.default)({
-    origin: process.env.API_ORIGINS,
+    origin: allowedOrigins,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['sessionId', 'Content-Type', 'Authorization'],
     exposedHeaders: ['sessionId'],

@@ -11,7 +11,7 @@ class UserController {
         res.status(400).json({ message: "User name and password exits" });
       }
       const checkUser = await UserService.getUserByEmail(email);
-      console.log(checkUser);
+
       if (checkUser) {
         res
           .status(400)
