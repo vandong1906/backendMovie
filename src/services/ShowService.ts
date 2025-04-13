@@ -18,7 +18,7 @@ class ShowService {
     }
     async getAllShows() {
         const shows = await Show.findAll({
-            include:  [{ model: Ticket, as: "ticket" }],
+            include: [{ model: Ticket, as: "tickets" }],
         });
         if (!shows) throw new Error("No shows found");
         return shows;
@@ -32,6 +32,7 @@ class ShowService {
                 { model: Theater, as: "theater" },
                 { model: Ticket, as: "tickets" },
             ],
+            
         });
         if (!show) throw new Error("Show not found");
         return show;
