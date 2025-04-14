@@ -58,5 +58,24 @@ class TicketController {
             res.status(500).json({ message: error.message });
         }
     }
+    async getAllTickets(req, res) {
+        try {
+            const tickets = await TicketService_1.default.getAllTickets();
+            res.status(200).json(tickets);
+        }
+        catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+    async getTicketsByShowId(req, res) {
+        try {
+            const { show_id } = req.params;
+            const tickets = await TicketService_1.default.getTicketsByShowId(Number(show_id));
+            res.status(200).json(tickets);
+        }
+        catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
 }
 exports.default = new TicketController();

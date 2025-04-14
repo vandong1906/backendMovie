@@ -11,4 +11,6 @@ router.post("/", TicketController_1.default.createTicket);
 router.get("/:id", TicketController_1.default.getTicket);
 router.put("/:id", TicketController_1.default.updateTicket);
 router.delete("/:id", TicketController_1.default.deleteTicket);
+router.get("/", TicketController_1.default.getAllTickets);
+router.get("/show/:show_id", TicketController_1.default.getTicketsByShowId); // New route
 exports.default = router;

@@ -7,6 +7,22 @@ const ticket_1 = __importDefault(require("../models/ticket"));
 const Show_1 = __importDefault(require("../models/Show"));
 class TicketService {
     // Create ticket
+    async getAllTickets() {
+        const tickets = await ticket_1.default.findAll({
+            include: [{ model: Show_1.default, as: "show" }],
+        });
+        return tickets;
+    }
+    // Get all tickets by show ID
+    async getTicketsByShowId(show_id) {
+        const tickets = await ticket_1.default.findAll({
+            where: { show_id },
+            include: [{ model: Show_1.default, as: "show" }],
+        });
+        if (!tickets || tickets.length === 0)
+            throw new Error("No tickets found for this show");
+        return tickets;
+    }
     async createTicket(seat_number, price, show_id, orderInfo, status = "pending") {
         const show = await Show_1.default.findByPk(show_id);
         if (!show)
