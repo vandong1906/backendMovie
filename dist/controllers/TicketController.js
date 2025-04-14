@@ -8,14 +8,14 @@ class TicketController {
     // Create ticket
     async createTicket(req, res) {
         try {
-            const { seat_number, price, show_id, orderInfo, status } = req.body;
+            const { seat_number, price, show_id, orderInfo, status, user_id } = req.body;
             if (!seat_number || !price || !show_id || !orderInfo) {
                 res.status(400).json({
                     message: "Seat number, price, show ID, and orderInfo are required",
                 });
             }
             else {
-                const ticket = await TicketService_1.default.createTicket(seat_number, price, show_id, orderInfo, status // có thể undefined, service sẽ mặc định là "pending"
+                const ticket = await TicketService_1.default.createTicket(seat_number, price, show_id, orderInfo, status, user_id // có thể undefined, service sẽ mặc định là "pending"
                 );
                 res.status(201).json(ticket);
             }

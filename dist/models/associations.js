@@ -10,27 +10,27 @@ const Show_1 = __importDefault(require("./Show"));
 const ticket_1 = __importDefault(require("./ticket"));
 const user_1 = __importDefault(require("./user"));
 const payment_1 = __importDefault(require("./payment"));
-// Associations
+// Movie - Show
 Movie_1.default.hasMany(Show_1.default, { foreignKey: "movie_id", as: "shows" });
-Show_1.default.belongsTo(Movie_1.default, { foreignKey: "movie_id", as: "movies" });
+Show_1.default.belongsTo(Movie_1.default, { foreignKey: "movie_id", as: "movie" });
 // Theater - Show
 Theater_1.default.hasMany(Show_1.default, { foreignKey: "theater_id", as: "shows" });
 Show_1.default.belongsTo(Theater_1.default, { foreignKey: "theater_id", as: "theater" });
-// Ticket 1 - 1 Payment
+// Ticket - Payment
 ticket_1.default.hasOne(payment_1.default, { foreignKey: "ticket_id", as: "payment" });
 payment_1.default.belongsTo(ticket_1.default, { foreignKey: "ticket_id", as: "ticket" });
 // Show - Ticket
-// Một Show có nhiều Ticket
 Show_1.default.hasMany(ticket_1.default, { foreignKey: "show_id", as: "tickets" });
-// Mỗi Ticket thuộc về một Show
 ticket_1.default.belongsTo(Show_1.default, { foreignKey: "show_id", as: "show" });
-// (Tuỳ chọn) Admin - Movie, Theater
-// Admin.hasMany(Movie, { foreignKey: 'admin_id' });
-// Admin.hasMany(Theater, { foreignKey: 'admin_id' });
-// Movie.belongsTo(Admin, { foreignKey: 'admin_id' });
-// Theater.belongsTo(Admin, { foreignKey: 'admin_id' });
+// User - Ticket
 user_1.default.hasMany(ticket_1.default, { foreignKey: "user_id", as: "tickets" });
 ticket_1.default.belongsTo(user_1.default, { foreignKey: "user_id", as: "user" });
+// User (Admin) - Movie
+user_1.default.hasMany(Movie_1.default, { foreignKey: "admin_id", as: "movies" });
+Movie_1.default.belongsTo(user_1.default, { foreignKey: "admin_id", as: "admin" });
+// User (Admin) - Theater
+user_1.default.hasMany(Theater_1.default, { foreignKey: "admin_id", as: "theaters" });
+Theater_1.default.belongsTo(user_1.default, { foreignKey: "admin_id", as: "admin" });
 function setupAssociations() {
     console.log('All associations are set up!');
 }

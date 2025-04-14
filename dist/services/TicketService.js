@@ -23,7 +23,7 @@ class TicketService {
             throw new Error("No tickets found for this show");
         return tickets;
     }
-    async createTicket(seat_number, price, show_id, orderInfo, status = "pending") {
+    async createTicket(seat_number, price, show_id, orderInfo, status = "pending", user_id) {
         const show = await Show_1.default.findByPk(show_id);
         if (!show)
             throw new Error("Show not found");
@@ -33,6 +33,7 @@ class TicketService {
             show_id,
             orderInfo,
             status,
+            user_id
         });
         return ticket;
     }

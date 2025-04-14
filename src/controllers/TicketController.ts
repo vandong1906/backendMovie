@@ -6,7 +6,7 @@ class TicketController {
   
   async createTicket(req: Request, res: Response) {
     try {
-      const { seat_number, price, show_id, orderInfo, status } = req.body;
+      const { seat_number, price, show_id, orderInfo, status,user_id } = req.body;
 
       if (!seat_number || !price || !show_id || !orderInfo) {
          res.status(400).json({
@@ -19,7 +19,8 @@ class TicketController {
             price,
             show_id,
             orderInfo,
-            status // có thể undefined, service sẽ mặc định là "pending"
+            status,
+            user_id // có thể undefined, service sẽ mặc định là "pending"
           );
     
           res.status(201).json(ticket);

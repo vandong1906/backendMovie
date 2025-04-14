@@ -24,7 +24,8 @@ class TicketService {
     price: number,
     show_id: number,
     orderInfo: string,
-    status: "pending" | "paid" | "shipped" | "delivered" | "cancelled" = "pending"
+    status: "pending" | "paid" | "shipped" | "delivered" | "cancelled" = "pending",
+    user_id:number
   ) {
     const show = await Show.findByPk(show_id);
     if (!show) throw new Error("Show not found");
@@ -35,6 +36,7 @@ class TicketService {
       show_id,
       orderInfo,
       status,
+      user_id
     });
 
     return ticket;
