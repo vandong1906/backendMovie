@@ -76,8 +76,6 @@ class TicketService {
     await ticket.save();
     return ticket;
   }
-
-  // Delete ticket
   async deleteTicket(ticket_id: number) {
     const ticket = await Ticket.findByPk(ticket_id);
     if (!ticket) throw new Error("Ticket not found");
@@ -94,5 +92,4 @@ class TicketService {
     });
   }
 }
-
 export default new TicketService();

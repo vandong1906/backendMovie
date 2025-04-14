@@ -68,7 +68,6 @@ class TicketService {
         await ticket.save();
         return ticket;
     }
-    // Delete ticket
     async deleteTicket(ticket_id) {
         const ticket = await ticket_1.default.findByPk(ticket_id);
         if (!ticket)
