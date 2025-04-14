@@ -27,12 +27,12 @@ User.hasMany(Ticket, { foreignKey: "user_id", as: "tickets" });
 Ticket.belongsTo(User, { foreignKey: "user_id", as: "user" });
 
 // User (Admin) - Movie
-User.hasMany(Movie, { foreignKey: "admin_id", as: "movies" });
-Movie.belongsTo(User, { foreignKey: "admin_id", as: "admin" });
+// User.hasMany(Movie, { foreignKey: "admin_id", as: "movies" });
+// Movie.belongsTo(User, { foreignKey: "admin_id", as: "admin" });
 
-// User (Admin) - Theater
-User.hasMany(Theater, { foreignKey: "admin_id", as: "theaters" });
-Theater.belongsTo(User, { foreignKey: "admin_id", as: "admin" });
+// // User (Admin) - Theater
+// User.hasMany(Theater, { foreignKey: "admin_id", as: "theaters" });
+// Theater.belongsTo(User, { foreignKey: "admin_id", as: "admin" });
 export default function setupAssociations() {
   console.log('All associations are set up!');
 }
