@@ -3,6 +3,7 @@ import TicketService from "../services/TicketService";
 
 class TicketController {
   // Create ticket
+  
   async createTicket(req: Request, res: Response) {
     try {
       const { seat_number, price, show_id, orderInfo, status } = req.body;
@@ -68,6 +69,23 @@ class TicketController {
       const { id } = req.params;
       const result = await TicketService.deleteTicket(Number(id));
       res.status(200).json(result);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+  async getAllTickets(req: Request, res: Response) {
+    try {
+      const tickets = await TicketService.getAllTickets();
+      res.status(200).json(tickets);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+  async getTicketsByShowId(req: Request, res: Response) {
+    try {
+      const { show_id } = req.params;
+      const tickets = await TicketService.getTicketsByShowId(Number(show_id));
+      res.status(200).json(tickets);
     } catch (error: any) {
       res.status(500).json({ message: error.message });
     }

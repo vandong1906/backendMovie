@@ -3,6 +3,22 @@ import Show from "../models/Show";
 
 class TicketService {
   // Create ticket
+  async getAllTickets() {
+    const tickets = await Ticket.findAll({
+      include: [{ model: Show, as: "show" }],
+    });
+    return tickets;
+  }
+
+  // Get all tickets by show ID
+  async getTicketsByShowId(show_id: number) {
+    const tickets = await Ticket.findAll({
+      where: { show_id },
+      include: [{ model: Show, as: "show" }],
+    });
+    if (!tickets || tickets.length === 0) throw new Error("No tickets found for this show");
+    return tickets;
+  }
   async createTicket(
     seat_number: string,
     price: number,
