@@ -1,8 +1,5 @@
-// models/Payment.ts
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../config/db";
-import Ticket from "./ticket";
-
 
 interface PaymentAttributes {
     id: number;
@@ -38,7 +35,7 @@ Payment.init(
         ticket_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            references: { model: Ticket, key: "ticket_id" },
+            references: { model: "tickets", key: "id" }, // Sửa "ticket_id" thành "id"
         },
         amount: {
             type: DataTypes.DECIMAL(10, 2),
@@ -64,6 +61,5 @@ Payment.init(
         timestamps: true,
     }
 );
-
 
 export default Payment;
