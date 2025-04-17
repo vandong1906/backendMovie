@@ -71,13 +71,13 @@ class UserController {
       if (user.email != undefined) {
         res.cookie("token", accessToken, {
           httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
+          secure: true,
           maxAge: 15 * 60 * 1000,
           sameSite: "strict",
         });
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
+          secure: true,
           maxAge: 7 * 24 * 60 * 60 * 1000,
           sameSite: "strict",
         });
