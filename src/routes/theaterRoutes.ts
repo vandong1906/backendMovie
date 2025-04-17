@@ -6,7 +6,7 @@ import {authMiddleware, isAdmin} from "../utils/authenciacne";
 const router = Router();
 
 
-router.route('/theaters/:id')
+router.route('/:id')
     .put([authMiddleware, isAdmin], TheaterController.updateTheater)
     .delete([authMiddleware, isAdmin], TheaterController.deleteTheater);
 router.route('/')

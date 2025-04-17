@@ -12,6 +12,7 @@ class PaymentController {
     async createPayment(req, res) {
         try {
             const { ticket_id, amount, payment_method, transaction_id } = req.body;
+            console.log(ticket_id, amount, payment_method, transaction_id);
             // Kiểm tra các tham số bắt buộc
             if (!ticket_id || !amount || !payment_method) {
                 res.status(400).json({

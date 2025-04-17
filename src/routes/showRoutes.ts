@@ -4,7 +4,7 @@ import ShowController from "../controllers/ShowController";
 import {authMiddleware, isAdmin, refreshToken} from "../utils/authenciacne";
 const router = Router();
 
-router.route('/shows/:id')
+router.route('/:id')
     .put([authMiddleware, isAdmin], ShowController.updateShow)
     .delete([authMiddleware, isAdmin], ShowController.deleteShow);
 router.route('/')

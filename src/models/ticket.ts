@@ -1,8 +1,7 @@
 // models/ticket.ts
 import { DataTypes, Model } from "sequelize";
-import sequelize from "../config/db"; // Adjust path to your Sequelize instance
-import Show from "./Show"; // Adjust path to your Show model
-
+import sequelize from "../config/db"; 
+import Show from "./Show";
 class Ticket extends Model {
   public ticket_id!: number;
   public seat_number!: string;

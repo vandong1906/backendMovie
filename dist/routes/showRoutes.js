@@ -8,7 +8,7 @@ const express_1 = require("express");
 const ShowController_1 = __importDefault(require("../controllers/ShowController"));
 const authenciacne_1 = require("../utils/authenciacne");
 const router = (0, express_1.Router)();
-router.route('/shows/:id')
+router.route('/:id')
     .put([authenciacne_1.authMiddleware, authenciacne_1.isAdmin], ShowController_1.default.updateShow)
     .delete([authenciacne_1.authMiddleware, authenciacne_1.isAdmin], ShowController_1.default.deleteShow);
 router.route('/')

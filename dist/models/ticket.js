@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // models/ticket.ts
 const sequelize_1 = require("sequelize");
-const db_1 = __importDefault(require("../config/db")); // Adjust path to your Sequelize instance
-const Show_1 = __importDefault(require("./Show")); // Adjust path to your Show model
+const db_1 = __importDefault(require("../config/db"));
+const Show_1 = __importDefault(require("./Show"));
 class Ticket extends sequelize_1.Model {
 }
 Ticket.init({

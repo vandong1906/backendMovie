@@ -8,7 +8,7 @@ const express_1 = require("express");
 const TheaterController_1 = __importDefault(require("../controllers/TheaterController"));
 const authenciacne_1 = require("../utils/authenciacne");
 const router = (0, express_1.Router)();
-router.route('/theaters/:id')
+router.route('/:id')
     .put([authenciacne_1.authMiddleware, authenciacne_1.isAdmin], TheaterController_1.default.updateTheater)
     .delete([authenciacne_1.authMiddleware, authenciacne_1.isAdmin], TheaterController_1.default.deleteTheater);
 router.route('/')
