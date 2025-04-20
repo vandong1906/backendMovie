@@ -9,6 +9,8 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const ticket_1 = __importDefault(require("../models/ticket"));
 const payment_1 = __importDefault(require("../models/payment"));
 const Show_1 = __importDefault(require("../models/Show"));
+const Movie_1 = __importDefault(require("../models/Movie"));
+const Theater_1 = __importDefault(require("../models/Theater"));
 class UserService {
     // Create a new User
     async createAdmin(email, password) {
@@ -50,7 +52,17 @@ class UserService {
                         },
                         {
                             model: Show_1.default,
-                            as: "show", // Include thêm Show
+                            as: "show",
+                            include: [
+                                {
+                                    model: Movie_1.default,
+                                    as: "movie",
+                                },
+                                {
+                                    model: Theater_1.default,
+                                    as: "theater",
+                                },
+                            ],
                         },
                     ],
                 },
