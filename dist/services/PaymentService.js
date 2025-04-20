@@ -28,7 +28,6 @@ class PaymentService {
         });
         return payment;
     }
-    // Update payment status (e.g., after payment gateway callback)
     async updatePaymentStatus(paymentId, payment_status) {
         const payment = await payment_1.default.findByPk(paymentId);
         if (!payment)
@@ -45,7 +44,6 @@ class PaymentService {
         }
         return payment;
     }
-    // Get payment details by order ID
     async getPaymentByOrderId(ticket_id) {
         const payment = await payment_1.default.findOne({
             where: { ticket_id: ticket_id },

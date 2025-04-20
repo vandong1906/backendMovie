@@ -34,8 +34,6 @@ class PaymentService {
 
         return payment;
     }
-
-    // Update payment status (e.g., after payment gateway callback)
     async updatePaymentStatus(paymentId: number, payment_status: "pending" | "completed" | "failed") {
         const payment = await Payment.findByPk(paymentId);
         if (!payment) throw new Error("Payment not found");
@@ -54,8 +52,6 @@ class PaymentService {
 
         return payment;
     }
-
-    // Get payment details by order ID
     async getPaymentByOrderId(ticket_id: number) {
         const payment = await Payment.findOne({
             where: { ticket_id: ticket_id },

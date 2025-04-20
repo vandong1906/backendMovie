@@ -167,6 +167,7 @@ console.log(ticket_id, amount, payment_method, transaction_id );
       const a = process.env.SEVER_CALLBACK_URL;
       if (a) {
         if (responseCode === "00") {
+
           await PaymentService.updatePaymentStatus(paymentId, "completed");
           res.redirect(a);
         } else {

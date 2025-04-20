@@ -16,7 +16,7 @@ Payment.init({
     ticket_id: {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
-        references: { model: "tickets", key: "id" }, // Sửa "ticket_id" thành "id"
+        references: { model: "tickets", key: "ticket_id" }, // Sửa "ticket_id" thành "id"
     },
     amount: {
         type: sequelize_1.DataTypes.DECIMAL(10, 2),
