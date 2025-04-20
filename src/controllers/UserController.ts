@@ -2,6 +2,7 @@
 import { Request, Response } from "express";
 import UserService from "../services/UserService";
 import jwt from "jsonwebtoken";
+import admin from "../utils/google";
 class UserController {
   async createUser(req: Request, res: Response) {
     try {
@@ -124,6 +125,58 @@ class UserController {
     }
   }
 
+//   async googleLogin(req: Request, res: Response)  {
+//     try {
+//         const { idToken } = req.body as { idToken?: string };
+//         console.log('Request body:', req.body);
 
+//         if (!idToken) {
+//              res.status(400).json({ error: 'Valid ID token is required' });
+//         }
+
+//         let decodedToken;
+//         try {
+//             decodedToken = await admin.auth().verifyIdToken(idToken ?? '') ;
+//             console.log('Decoded token:', decodedToken);
+//         } catch (error) {
+//             console.error('Token verification failed:', error);
+//              res.status(400).json({ error: 'Invalid or malformed ID token' });
+//         }
+//         if(decodedToken)
+//         {
+//             const { email, uid } = decodedToken;
+//             if (!email || !uid) {
+//                 res.status(400).json({ error: 'Invalid token: missing email or uid' });
+//             }
+//             const { accessToken, refreshToken, user } = await UserService.googleLoginOrRegister(email??'', uid);
+
+//             // Set cookies
+//             if (user.email != undefined) {
+//               res.cookie("token", accessToken, {
+//                 httpOnly: true,
+//                 secure: process.env.NODE_ENV === "production",
+//                 maxAge: 15 * 60 * 1000,
+//                 sameSite: "none",
+//               });
+//               res.cookie("refreshToken", refreshToken, {
+//                 httpOnly: true,
+//                 secure: process.env.NODE_ENV === "production",
+//                 maxAge: 7 * 24 * 60 * 60 * 1000,
+//                 sameSite: "none",
+//               });
+//             }
+//             res.status(200).json({
+//                 message: 'Google login successful',
+//                 user
+//             });
+//         }
+//     } catch (error: unknown) {
+//         console.error('Google login error:', error);
+//         if (error instanceof Error) {
+//              res.status(400).json({ error: error.message });
+//         }
+//          res.status(500).json({ error: 'Internal server error' });
+//     }
+// };
 }
 export default new UserController();

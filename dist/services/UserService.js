@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // services/UserService.ts
 const user_1 = __importDefault(require("../models/user"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const ticket_1 = __importDefault(require("../models/ticket"));
 const payment_1 = __importDefault(require("../models/payment"));
+const Show_1 = __importDefault(require("../models/Show"));
 class UserService {
     // Create a new User
     async createAdmin(email, password) {
@@ -40,14 +40,12 @@ class UserService {
         const user = await user_1.default.findByPk(id, {
             include: [
                 {
-                    model: ticket_1.default,
-                    as: "tickets",
-                    include: [
-                        {
-                            model: payment_1.default,
-                            as: "payment", // phải trùng alias
-                        },
-                    ],
+                    model: payment_1.default,
+                    as: "payment", // phải trùng alias
+                },
+                {
+                    model: Show_1.default,
+                    as: "show", // Include thêm Show
                 },
             ],
         });

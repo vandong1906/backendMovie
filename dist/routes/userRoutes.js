@@ -14,4 +14,5 @@ router.put("/:id", UserController_1.default.updateUser);
 router.delete("/:id", UserController_1.default.deleteUser);
 router.post("/login", UserController_1.default.login);
 router.post("/createAdmin", UserController_1.default.createAdmin);
+// router.post("/google", UserController.googleLogin);
 exports.default = router;

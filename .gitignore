@@ -8,3 +8,5 @@ yarn-error.log*
 /.pnp
 .pnp.js
 .vscode/*
+service.json 
+/src/utils/google.ts

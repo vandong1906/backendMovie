@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import Ticket from "../models/ticket";
 import Payment from "../models/payment";
+import Show from "../models/Show";
 class UserService {
   // Create a new User
   async createAdmin(email: string, password: string) {
@@ -37,14 +38,12 @@ class UserService {
     const user = await User.findByPk(id, {
       include: [
         {
-          model: Ticket,
-          as: "tickets",
-          include: [
-            {
-              model: Payment,
-              as: "payment", // phải trùng alias
-            },
-          ],
+          model: Payment,
+          as: "payment", // phải trùng alias
+        },
+        {
+          model: Show,
+          as: "show", // Include thêm Show
         },
       ],
     });
@@ -91,6 +90,45 @@ class UserService {
       user: { id: user?.User_id, email: user?.email, role: user?.role },
     };
   }
-}
+//   async googleLoginOrRegister (email: string, uid: string) {
+//     if (!email) {
+//         throw new Error("Email is required");
+//     }
 
+//     // Kiểm tra xem user đã tồn tại với email này chưa
+//     let user = await User.findOne({ where: { email } });
+
+//     if (!user) {
+
+//         user = await User.create({
+//             email,
+//             password: await bcrypt.hash(uid, 10),
+//             role: "user",
+
+//         });
+//     }
+//     const accessToken = jwt.sign(
+//         { id: user.User_id, role: user.role },
+//         process.env.JWT_SECRET || "",
+//         { expiresIn: "5m" }
+//     );
+
+//     const refreshToken = jwt.sign(
+//         { id: user.User_id, role: user.role },
+//         process.env.JWT_REFRESH_SECRET || "",
+//         { expiresIn: "7d" }
+//     );
+
+//     return {
+//         accessToken,
+//         refreshToken,
+//         user: {
+//             id: user.User_id,
+//             email: user.email,
+//             role: user.role,
+
+//         }
+//     };
+// }
+}
 export default new UserService();
