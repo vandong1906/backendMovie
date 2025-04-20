@@ -38,12 +38,18 @@ class UserService {
     const user = await User.findByPk(id, {
       include: [
         {
-          model: Payment,
-          as: "payment", // phải trùng alias
-        },
-        {
-          model: Show,
-          as: "show", // Include thêm Show
+          model: Ticket,
+          as: "tickets",
+          include: [
+            {
+              model: Payment,
+              as: "payment", // phải trùng alias
+            },
+            {
+              model: Show,
+              as: "show", // Include thêm Show
+            },
+          ],
         },
       ],
     });
